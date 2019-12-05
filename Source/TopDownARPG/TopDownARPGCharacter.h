@@ -26,7 +26,12 @@ public:
 	/** Returns CursorToWorld subobject **/
 	FORCEINLINE class UDecalComponent* GetCursorToWorld() { return CursorToWorld; }
 
-
+	enum EAbility
+	{
+		ABILITY1 = 0,
+		ABILITY2,
+		AREA_TIME_SLOW
+	};
 
 	UPROPERTY()
 	TArray<UAbility*> AbilityInstances;
@@ -57,4 +62,3 @@ private:
 
 	void Death();
 };
-

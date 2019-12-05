@@ -36,6 +36,8 @@ void ATopDownARPGPlayerController::SetupInputComponent()
 
 	InputComponent->BindAction("Ability1", IE_Pressed, this, &ATopDownARPGPlayerController::ActivateAbility1);
 	InputComponent->BindAction("Ability2", IE_Pressed, this, &ATopDownARPGPlayerController::ActivateAbility2);
+	InputComponent->BindAction("AreaTimeSlowAbility", IE_Pressed, this, &ATopDownARPGPlayerController::ActivateAreaTimeSlowAbility);
+
 
 	// support touch devices 
 	InputComponent->BindTouch(EInputEvent::IE_Pressed, this, &ATopDownARPGPlayerController::MoveToTouchLocation);
@@ -44,36 +46,34 @@ void ATopDownARPGPlayerController::SetupInputComponent()
 	InputComponent->BindAction("ResetVR", IE_Pressed, this, &ATopDownARPGPlayerController::OnResetVR);
 }
 
-void ATopDownARPGPlayerController::ActivateAbility1()
+void ATopDownARPGPlayerController::ActivateAbility(ATopDownARPGCharacter::EAbility ability)
 {
 	ATopDownARPGCharacter* PlayerCharacter = Cast<ATopDownARPGCharacter>(GetPawn());
-	if (IsValid(PlayerCharacter) == false)
+	if (!IsValid(PlayerCharacter))
 	{
-		UE_LOG(LogTopDownARPG, Error, TEXT("ATopDownARPGPlayerController::ActivateAbility1 IsValid(PlayerCharacter) == false"));
-		return;
+		UE_LOG(LogTopDownARPG, Error, TEXT("ATopDownARPGPlayerController::ActivateAbility IsValid(PlayerCharacter) == false"))
 	}
 
-	UAbility* Ability = PlayerCharacter->AbilityInstances[0];
-	if (IsValid(Ability))
+	UAbility* ActivateAreaAbility = PlayerCharacter->AbilityInstances[ability];
+	if (IsValid(ActivateAreaAbility))
 	{
-		Ability->Activate(PlayerCharacter);
+		ActivateAreaAbility->Activate(PlayerCharacter);
 	}
+}
+
+void ATopDownARPGPlayerController::ActivateAbility1()
+{
+	ActivateAbility(ATopDownARPGCharacter::EAbility::ABILITY1);
 }
 
 void ATopDownARPGPlayerController::ActivateAbility2()
 {
-	ATopDownARPGCharacter* PlayerCharacter = Cast<ATopDownARPGCharacter>(GetPawn());
-	if (IsValid(PlayerCharacter) == false)
-	{
-		UE_LOG(LogTopDownARPG, Error, TEXT("ATopDownARPGPlayerController::ActivateAbility1 IsValid(PlayerCharacter) == false"));
-		return;
-	}
+	ActivateAbility(ATopDownARPGCharacter::EAbility::ABILITY2);
+}
 
-	UAbility* Ability = PlayerCharacter->AbilityInstances[1];
-	if (IsValid(Ability))
-	{
-		Ability->Activate(PlayerCharacter);
-	}
+void ATopDownARPGPlayerController::ActivateAreaTimeSlowAbility()
+{
+	ActivateAbility(ATopDownARPGCharacter::EAbility::AREA_TIME_SLOW);
 }
 
 void ATopDownARPGPlayerController::OnResetVR()

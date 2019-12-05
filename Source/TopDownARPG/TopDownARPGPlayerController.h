@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "TopDownARPG\TopDownARPGCharacter.h"
 #include "TopDownARPGPlayerController.generated.h"
 
 UCLASS()
@@ -38,8 +39,14 @@ protected:
 	/** Input handlers for SetDestination action. */
 	void OnSetDestinationPressed();
 	void OnSetDestinationReleased();
+
+	/** Abilities */
+	void ActivateAbility(ATopDownARPGCharacter::EAbility ability);
+
+private:
 	void ActivateAbility1();
 	void ActivateAbility2();
+	void ActivateAreaTimeSlowAbility();
 };
 
 
